@@ -76,7 +76,7 @@ CONTAINS
                ids,ide, jds,jde, kds,kde,                                     &
                ims,ime, jms,jme, kms,kme,                                     &
                its,ite, jts,jte, kts,kte,                                     &
-               21,                                                            &
+               22,                                                            & !fix
                emis_ant(ims,kms,jms,p_e_so2),emis_ant(ims,kms,jms,p_e_no),    &
                emis_ant(ims,kms,jms,p_e_co),emis_ant(ims,kms,jms,p_e_eth),    &
                emis_ant(ims,kms,jms,p_e_hc3),emis_ant(ims,kms,jms,p_e_hc5),   &
@@ -87,7 +87,7 @@ CONTAINS
                emis_ant(ims,kms,jms,p_e_ald),emis_ant(ims,kms,jms,p_e_ket),   &
                emis_ant(ims,kms,jms,p_e_ora2),emis_ant(ims,kms,jms,p_e_nh3),  &
                emis_ant(ims,kms,jms,p_e_no2),emis_ant(ims,kms,jms,p_e_ch3oh), &
-               emis_ant(ims,kms,jms,p_e_c2h5oh))
+               emis_ant(ims,kms,jms,p_e_iso),emis_ant(ims,kms,jms,p_e_c2h5oh))  !fix
 
 
 
@@ -127,6 +127,7 @@ CONTAINS
           print*,"e_tol=",emis_ant(i,k,j,p_e_tol)*conv
           print*,"e_xyl=",emis_ant(i,k,j,p_e_xyl)*conv
           print*,"e_ket=",emis_ant(i,k,j,p_e_ket)*conv
+          print*,"e_iso=",emis_ant(i,k,j,p_e_iso)*conv !fix
        end if
 #endif
 
@@ -160,7 +161,8 @@ CONTAINS
                          +emis_ant(i,k,j,p_e_xyl)*conv       
         chem(i,k,j,p_ket)  =  chem(i,k,j,p_ket)                        &
                          +emis_ant(i,k,j,p_e_ket)*conv      
-
+        chem(i,k,j,p_iso)  =  chem(i,k,j,p_iso)                        &        !fix
+                         +emis_ant(i,k,j,p_e_iso)*conv    
          chem_select_2 : SELECT CASE( config_flags%chem_opt )
 
          END SELECT  chem_select_2
@@ -212,7 +214,7 @@ CONTAINS
                ids,ide, jds,jde, kds,kde,                                     &
                ims,ime, jms,jme, kms,kme,                                     &
                its,ite, jts,jte, kts,kte,                                     &
-               21,                                                            &
+               22,                                                            &!fix
                emis_ant(ims,kms,jms,p_e_so2),emis_ant(ims,kms,jms,p_e_no),    &
                emis_ant(ims,kms,jms,p_e_co),emis_ant(ims,kms,jms,p_e_eth),    &
                emis_ant(ims,kms,jms,p_e_hc3),emis_ant(ims,kms,jms,p_e_hc5),   &
@@ -223,7 +225,7 @@ CONTAINS
                emis_ant(ims,kms,jms,p_e_ald),emis_ant(ims,kms,jms,p_e_ket),   &
                emis_ant(ims,kms,jms,p_e_ora2),emis_ant(ims,kms,jms,p_e_nh3),  &
                emis_ant(ims,kms,jms,p_e_no2),emis_ant(ims,kms,jms,p_e_ch3oh), &
-               emis_ant(ims,kms,jms,p_e_c2h5oh))
+               emis_ant(ims,kms,jms,p_e_iso),emis_ant(ims,kms,jms,p_e_c2h5oh))  !fix
 
 
    END subroutine cbmz_addemiss_anthro
