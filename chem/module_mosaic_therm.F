@@ -5198,7 +5198,7 @@
 
 
 ! Calculates the equilibrium gas-particle partitioning for SOA species
-        subroutine  equilibrium(start_ind,N)
+      subroutine  equilibrium(start_ind,N)
 !        subroutine  equilibrium
 ! This routine was implemented by Manish Shrivastava on 12/24/2009 to do gas-particle partitioning of SOA assuming thermodynamic equilibrium.
 ! Modified by Alma Hodzic 12/2012 to implement the partitioning for mozart-mosaic species (based on the initial code implemented by Manish Shrivastava and originated from CAMx) 
@@ -5217,7 +5217,7 @@
         real(kind=8) :: frqtotfresh,frqtotaged,frt
         real(kind=8) :: xsumfresh(nbin_a),xsumaged(nbin_a)
         real(kind=8) :: mnkfresh,mxkfresh,mnkaged,mxkaged
-        real betak
+!       real betak
 !        integer :: flagsoap(N) ! flagsoap determines if the species 'i' is fresh (flagsoap(i)=2) or aged(flagsoap(i)=1
         real(kind=8) ::  Csatfresh(N), Ctotfresh(N)
         real(kind=8) ::  Cgasfresh(N),Caerfresh(N) ! Csat: Saturation conc., Ctot: Total organic mass
@@ -5229,7 +5229,7 @@
         integer ibin,iter ! Bin nos.
 ! local variables
         integer iv, jp
-         real(kind=8) :: dum, sum_dum, sum_soa, small_oc
+        real(kind=8) :: dum, sum_dum, sum_soa, small_oc
 
 !        real, parameter :: tolmin = 1.E-12^M
 !        real, parameter :: conmin = 1.E-20^M
@@ -5241,17 +5241,17 @@
 !       LOGICAL check
         jp=jtotal
         iter=0
-         cpxaged=0.0
+        cpxaged=0.0
         cpxfresh=0.0 ! Assume no pres-existing OA forms a solution
         nsolfresh=0
-         nsolaged=0
-         icontfresh=0
-         icontaged=0
-         dq=0.0
+        nsolaged=0
+        icontfresh=0
+        icontaged=0
+        dq=0.0
 ! Paer holds the organic aerosol values in each volatility bin (sum of all size bins)
-          do iv=1,ngas_volatile
-           Paer(iv)=0.0
-          enddo
+        do iv=1,ngas_volatile
+          Paer(iv)=0.0
+        enddo
 ! Initialize flagsoap
           do i=1,N
              flagsoap(i)=1
@@ -5271,7 +5271,7 @@
 ! Calculate Ctot and Paer
 !              do iv = ipcg1_b_c_g, ngas_volatile
 !              do iv = start_ind, ngas_ioa + ngas_soa
-              do iv = start_ind, (start_ind + N - 1)
+      do iv = start_ind, (start_ind + N - 1)
         total_species(iv) = gas(iv)
         do ibin = 1, nbin_a
           total_species(iv) = total_species(iv) + aer(iv,jtotal,ibin)
@@ -5279,17 +5279,17 @@
         enddo
       enddo
 ! Calculate pre-existing moles of OA (cpx) as sum of all size bins
-        do ibin=1,nbin_a
+      do ibin=1,nbin_a
         cpxaged= cpxaged+aer(ioc_a,jp,ibin)
-         enddo
+      enddo
 
 !  Maps arrays starting from start_ind or ipcg1_b_c_g on to corresponding arrays starting from 1 for just soa species
-        do i=1,N
+      do i=1,N
            Ctot(i)=total_species(start_ind+i-1)
            Caer(i)=Paer(start_ind+i-1)
            Csat(i)=sat_soa(start_ind+i-1)
            Cgas(i)=gas(start_ind+i-1)
-         enddo
+      enddo
 
 ! Initialize mapping array indices
           do i=1,N
@@ -11856,7 +11856,7 @@
 !     include 'v33com2'
 !     include 'mosaic.h'
 ! local variables
-      integer iaer, je, ja, j_index, ibin
+      integer iaer, je, ja, j_index, ibin, jc
 !     logical first
 !     save first
 !     data first/.true./
@@ -12628,107 +12628,108 @@
       dens_comp_a(jbc)      = 1.8
       dens_comp_a(join)     = 2.6
       dens_comp_a(jh2o)     = 1.0
-      dens_comp_a(ipcg1_b_c_a) =1.0
-      dens_comp_a(ipcg2_b_c_a) =1.0
-      dens_comp_a(ipcg3_b_c_a)=1.0
-      dens_comp_a(ipcg4_b_c_a)=1.0
-      dens_comp_a(ipcg5_b_c_a)=1.0
-      dens_comp_a(ipcg6_b_c_a)=1.0
-      dens_comp_a(ipcg7_b_c_a)=1.0
-      dens_comp_a(ipcg8_b_c_a)=1.0
-      dens_comp_a(ipcg9_b_c_a)=1.0
-      dens_comp_a(iopcg1_b_c_a)=1.0
-      dens_comp_a(iopcg2_b_c_a)=1.0
-      dens_comp_a(iopcg3_b_c_a)=1.0
-      dens_comp_a(iopcg4_b_c_a)=1.0
-      dens_comp_a(iopcg5_b_c_a)=1.0
-      dens_comp_a(iopcg6_b_c_a)=1.0
-      dens_comp_a(iopcg7_b_c_a)=1.0
-      dens_comp_a(iopcg8_b_c_a)=1.0
-      dens_comp_a(ipcg1_b_o_a)=1.0
-      dens_comp_a(ipcg2_b_o_a)=1.0
-      dens_comp_a(ipcg3_b_o_a)=1.0
-      dens_comp_a(ipcg4_b_o_a)=1.0
-      dens_comp_a(ipcg5_b_o_a)=1.0
-      dens_comp_a(ipcg6_b_o_a)=1.0
-      dens_comp_a(ipcg7_b_o_a)=1.0
-      dens_comp_a(ipcg8_b_o_a)=1.0
-      dens_comp_a(ipcg9_b_o_a)=1.0
-      dens_comp_a(iopcg1_b_o_a)=1.0
-      dens_comp_a(iopcg2_b_o_a)=1.0
-      dens_comp_a(iopcg3_b_o_a)=1.0
-      dens_comp_a(iopcg4_b_o_a)=1.0
-      dens_comp_a(iopcg5_b_o_a)=1.0
-      dens_comp_a(iopcg6_b_o_a)=1.0
-      dens_comp_a(iopcg7_b_o_a)=1.0
-      dens_comp_a(iopcg8_b_o_a)=1.0
-      dens_comp_a(ipcg1_f_c_a) =1.0
-      dens_comp_a(ipcg2_f_c_a) =1.0
-      dens_comp_a(ipcg3_f_c_a)=1.0
-      dens_comp_a(ipcg4_f_c_a)=1.0
-      dens_comp_a(ipcg5_f_c_a)=1.0
-      dens_comp_a(ipcg6_f_c_a)=1.0
-      dens_comp_a(ipcg7_f_c_a)=1.0
-      dens_comp_a(ipcg8_f_c_a)=1.0
-      dens_comp_a(ipcg9_f_c_a)=1.0
-      dens_comp_a(iopcg1_f_c_a)=1.0
-      dens_comp_a(iopcg2_f_c_a)=1.0
-      dens_comp_a(iopcg3_f_c_a)=1.0
-      dens_comp_a(iopcg4_f_c_a)=1.0
-      dens_comp_a(iopcg5_f_c_a)=1.0
-      dens_comp_a(iopcg6_f_c_a)=1.0
-      dens_comp_a(iopcg7_f_c_a)=1.0
-      dens_comp_a(iopcg8_f_c_a)=1.0
-      dens_comp_a(ipcg1_f_o_a)=1.0
-      dens_comp_a(ipcg2_f_o_a)=1.0
-      dens_comp_a(ipcg3_f_o_a)=1.0
-      dens_comp_a(ipcg4_f_o_a)=1.0
-      dens_comp_a(ipcg5_f_o_a)=1.0
-      dens_comp_a(ipcg6_f_o_a)=1.0
-      dens_comp_a(ipcg7_f_o_a)=1.0
-      dens_comp_a(ipcg8_f_o_a)=1.0
-      dens_comp_a(ipcg9_f_o_a)=1.0
-      dens_comp_a(iopcg1_f_o_a)=1.0
-      dens_comp_a(iopcg2_f_o_a)=1.0
-      dens_comp_a(iopcg3_f_o_a)=1.0
-      dens_comp_a(iopcg4_f_o_a)=1.0
-      dens_comp_a(iopcg5_f_o_a)=1.0
-      dens_comp_a(iopcg6_f_o_a)=1.0
-      dens_comp_a(iopcg7_f_o_a)=1.0
-      dens_comp_a(iopcg8_f_o_a)=1.0
-      dens_comp_a(ismpa_a)=1.0
-      dens_comp_a(ismpbb_a)=1.0
-      dens_comp_a(iglysoa_r1_a)=1.0
-      dens_comp_a(iglysoa_r2_a)=1.0
-      dens_comp_a(iglysoa_sfc_a)=1.0
-      dens_comp_a(iglysoa_nh4_a)=1.0
-      dens_comp_a(iglysoa_oh_a)=1.0
-      dens_comp_a(iant1_c_a)=1.0
-      dens_comp_a(iant2_c_a)=1.0
-      dens_comp_a(iant3_c_a)=1.0
-      dens_comp_a(iant4_c_a)=1.0
-      dens_comp_a(iant1_o_a)=1.0
-      dens_comp_a(iant2_o_a)=1.0
-      dens_comp_a(iant3_o_a)=1.0
-      dens_comp_a(iant4_o_a)=1.0
-      dens_comp_a(ibiog1_c_a)=1.0
-      dens_comp_a(ibiog2_c_a)=1.0
-      dens_comp_a(ibiog3_c_a)=1.0
-      dens_comp_a(ibiog4_c_a)=1.0
-      dens_comp_a(ibiog1_o_a)=1.0
-      dens_comp_a(ibiog2_o_a)=1.0
-      dens_comp_a(ibiog3_o_a)=1.0
-      dens_comp_a(ibiog4_o_a)=1.0
-      dens_comp_a(iasoaX_a)=1.5
-      dens_comp_a(iasoa1_a)=1.5
-      dens_comp_a(iasoa2_a)=1.5
-      dens_comp_a(iasoa3_a)=1.5
-      dens_comp_a(iasoa4_a)=1.5
-      dens_comp_a(ibsoaX_a)=1.5
-      dens_comp_a(ibsoa1_a)=1.5
-      dens_comp_a(ibsoa2_a)=1.5
-      dens_comp_a(ibsoa3_a)=1.5
-      dens_comp_a(ibsoa4_a)=1.5
+    !--zhuyf change form ixxx_ to jxxx_
+      dens_comp_a(jpcg1_b_c) =1.0
+      dens_comp_a(jpcg2_b_c) =1.0
+      dens_comp_a(jpcg3_b_c)=1.0
+      dens_comp_a(jpcg4_b_c)=1.0
+      dens_comp_a(jpcg5_b_c)=1.0
+      dens_comp_a(jpcg6_b_c)=1.0
+      dens_comp_a(jpcg7_b_c)=1.0
+      dens_comp_a(jpcg8_b_c)=1.0
+      dens_comp_a(jpcg9_b_c)=1.0
+      dens_comp_a(jopcg1_b_c)=1.0
+      dens_comp_a(jopcg2_b_c)=1.0
+      dens_comp_a(jopcg3_b_c)=1.0
+      dens_comp_a(jopcg4_b_c)=1.0
+      dens_comp_a(jopcg5_b_c)=1.0
+      dens_comp_a(jopcg6_b_c)=1.0
+      dens_comp_a(jopcg7_b_c)=1.0
+      dens_comp_a(jopcg8_b_c)=1.0
+      dens_comp_a(jpcg1_b_o)=1.0
+      dens_comp_a(jpcg2_b_o)=1.0
+      dens_comp_a(jpcg3_b_o)=1.0
+      dens_comp_a(jpcg4_b_o)=1.0
+      dens_comp_a(jpcg5_b_o)=1.0
+      dens_comp_a(jpcg6_b_o)=1.0
+      dens_comp_a(jpcg7_b_o)=1.0
+      dens_comp_a(jpcg8_b_o)=1.0
+      dens_comp_a(jpcg9_b_o)=1.0
+      dens_comp_a(jopcg1_b_o)=1.0
+      dens_comp_a(jopcg2_b_o)=1.0
+      dens_comp_a(jopcg3_b_o)=1.0
+      dens_comp_a(jopcg4_b_o)=1.0
+      dens_comp_a(jopcg5_b_o)=1.0
+      dens_comp_a(jopcg6_b_o)=1.0
+      dens_comp_a(jopcg7_b_o)=1.0
+      dens_comp_a(jopcg8_b_o)=1.0
+      dens_comp_a(jpcg1_f_c) =1.0
+      dens_comp_a(jpcg2_f_c) =1.0
+      dens_comp_a(jpcg3_f_c)=1.0
+      dens_comp_a(jpcg4_f_c)=1.0
+      dens_comp_a(jpcg5_f_c)=1.0
+      dens_comp_a(jpcg6_f_c)=1.0
+      dens_comp_a(jpcg7_f_c)=1.0
+      dens_comp_a(jpcg8_f_c)=1.0
+      dens_comp_a(jpcg9_f_c)=1.0
+      dens_comp_a(jopcg1_f_c)=1.0
+      dens_comp_a(jopcg2_f_c)=1.0
+      dens_comp_a(jopcg3_f_c)=1.0
+      dens_comp_a(jopcg4_f_c)=1.0
+      dens_comp_a(jopcg5_f_c)=1.0
+      dens_comp_a(jopcg6_f_c)=1.0
+      dens_comp_a(jopcg7_f_c)=1.0
+      dens_comp_a(jopcg8_f_c)=1.0
+      dens_comp_a(jpcg1_f_o)=1.0
+      dens_comp_a(jpcg2_f_o)=1.0
+      dens_comp_a(jpcg3_f_o)=1.0
+      dens_comp_a(jpcg4_f_o)=1.0
+      dens_comp_a(jpcg5_f_o)=1.0
+      dens_comp_a(jpcg6_f_o)=1.0
+      dens_comp_a(jpcg7_f_o)=1.0
+      dens_comp_a(jpcg8_f_o)=1.0
+      dens_comp_a(jpcg9_f_o)=1.0
+      dens_comp_a(jopcg1_f_o)=1.0
+      dens_comp_a(jopcg2_f_o)=1.0
+      dens_comp_a(jopcg3_f_o)=1.0
+      dens_comp_a(jopcg4_f_o)=1.0
+      dens_comp_a(jopcg5_f_o)=1.0
+      dens_comp_a(jopcg6_f_o)=1.0
+      dens_comp_a(jopcg7_f_o)=1.0
+      dens_comp_a(jopcg8_f_o)=1.0
+      dens_comp_a(jsmpa)=1.0
+      dens_comp_a(jsmpbb)=1.0
+      dens_comp_a(jglysoa_r1)=1.0
+      dens_comp_a(jglysoa_r2)=1.0
+      dens_comp_a(jglysoa_sfc)=1.0
+      dens_comp_a(jglysoa_nh4)=1.0
+      dens_comp_a(jglysoa_oh)=1.0
+      dens_comp_a(jant1_c)=1.0
+      dens_comp_a(jant2_c)=1.0
+      dens_comp_a(jant3_c)=1.0
+      dens_comp_a(jant4_c)=1.0
+      dens_comp_a(jant1_o)=1.0
+      dens_comp_a(jant2_o)=1.0
+      dens_comp_a(jant3_o)=1.0
+      dens_comp_a(jant4_o)=1.0
+      dens_comp_a(jbiog1_c)=1.0
+      dens_comp_a(jbiog2_c)=1.0
+      dens_comp_a(jbiog3_c)=1.0
+      dens_comp_a(jbiog4_c)=1.0
+      dens_comp_a(jbiog1_o)=1.0
+      dens_comp_a(jbiog2_o)=1.0
+      dens_comp_a(jbiog3_o)=1.0
+      dens_comp_a(jbiog4_o)=1.0
+      dens_comp_a(jasoaX)=1.5
+      dens_comp_a(jasoa1)=1.5
+      dens_comp_a(jasoa2)=1.5
+      dens_comp_a(jasoa3)=1.5
+      dens_comp_a(jasoa4)=1.5
+      dens_comp_a(jbsoaX)=1.5
+      dens_comp_a(jbsoa1)=1.5
+      dens_comp_a(jbsoa2)=1.5
+      dens_comp_a(jbsoa3)=1.5
+      dens_comp_a(jbsoa4)=1.5
 
 ! molecular weights of generic aerosol species
       mw_aer_mac(iso4_a) = 96.0
@@ -13195,6 +13196,15 @@
       partial_molar_vol(igly)=58.0
       partial_molar_vol(iho)=17.0
 
+! First set default refractive index
+! This sets the refractive index of all components to be equal to OC
+! Changed by Manish Shrivastava on 04/20/2013. Add by zhuyf
+
+        do jc = 1, naercomp
+          ref_index_a(jc)= cmplx(1.45,0.)
+        enddo
+
+! Now reset the refractive indices as required
 ! refractive index
       ref_index_a(jnh4so4) = cmplx(1.52,0.)
       ref_index_a(jlvcite) = cmplx(1.50,0.)
